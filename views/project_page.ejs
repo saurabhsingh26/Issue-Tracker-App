@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title><%= title %></title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/">Issue Tracker</a>
+    </nav>
+    
+    <div class="container mb-3 mt-3">
+        <h4>Filter Issue</h4>
+        <div class="card pb-3 pt-2 pl-3">
+            <form id="filter-issue-form"> 
+                <div class="row">
+                    <div class="col  mb-3">
+                        <label for="labels" class="col-form-label"
+                        >Search by Label</label
+                        >
+        
+                        <div class="col-sm-12">
+                        <% for( let label of project.labels) { %>
+                        <input
+                            class="form-check-input"
+                            name="labels"
+                            type="checkbox"
+                            value="<%= label %>"
+                            id="<%=label%>"
+                        />
+                        <label class="form-check-label" for="<%=label%>">
+                            <%=label%> </label
+                        ><br />
+                        <% } %>
+                        </div>
+                    </div>
+                    <div class="col mb-3 m-auto">
+                        <label for="authorlabel" class="col-form-label"
+                        >Author</label
+                        >
+                        <div class="col-sm-8">
+                        <input
+                            class="form-check-input"
+                            name="author"
+                            type="radio"
+                            checked="checked"
+                            value=""
+                            id="null"
+                        />
+                        <label class="form-check-label" for="null">None</label><br />
+                        <% for( let issue of project.issues ) { %>
+                        <input
+                            class="form-check-input"
+                            name="author"
+                            type="radio"
+                            value="<%= issue.author %>"
+                            id="<%= issue.author %>"
+                        />
+                        <label class="form-check-label" for="<%= issue.author %>"
+                            ><%= issue.author %></label
+                        ><br />
+                        <% } %>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        data-bs-dismiss="modal"
+                        class="btn btn-primary">
+                        Filter
+                    </button>
+                    
+                </div>
+                
+                
+            </form>
+            
+        </div>
+        <div class="w-70 mb-3 mt-2 mx-auto">
+            <div class=" w-100 mb-5" style="width: 18rem" id="issues-list"></div>
+        </div>
+
+    </div>
+    <div class="container mb-4">
+        <div class="card">
+            <h5 class="card-header">Title : <%= project.name %></h5>
+            <div class="card-body">
+              <h5 class="card-title">Author : <%= project.author %></h5>
+              <p class="card-text"><%= project.description %></p>
+              <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Create Issue
+                </button>
+              </p>
+              <div  id="collapseExample" class="collapse">
+                <div class="card card-body">
+                <!-- <div class="modal-content"> -->
+                    <form
+                        class="border border-light border-3"
+                        action="/project/<%=project._id%>"
+                        method="POST">
+
+                        <div class="row mb-3 m-auto">
+                        <label for="titlelabel" class="col-sm-4 col-form-label">Title</label>
+                        <div class="col-sm-8 mb-2">
+                            <input
+                            type="text"
+                            name="title"
+                            placeholder="Title"
+                            required
+                            class="form-control"
+                            id="titlelabel"
+                            />
+                        </div>
+                        </div>
+                        <div class="row mb-5 m-auto">
+                        <label for="descriptionlabel" class="col-sm-4 col-form-label"
+                            >Description</label
+                        >
+                        <div class="col-sm-8 mb-3">
+                            <textarea
+                            name="description"
+                            placeholder="Describe your issue..."
+                            required
+                            class="form-control"
+                            id="descriptionlabel"
+                            style="height: 100px"
+                            ></textarea>
+                        </div>
+                        </div>
+
+                        
+                        <div class="row mb-3 m-auto">
+                        <label for="labels" class="col-sm-4 col-form-label">Add Labels</label>
+
+                        <div class="col-sm-8 mb-3">
+                            <input
+                            class="form-check-input"
+                            name="labels"
+                            type="checkbox"
+                            value="Bug"
+                            id="bug"
+                            />
+                            <label class="form-check-label" for="bug"> Bug </label><br /><input
+                            name="labels"
+                            class="form-check-input"
+                            type="checkbox"
+                            value="UI Improvement"
+                            id="ui-improvement"
+                            />
+                            <label class="form-check-label" for="ui-improvement">
+                            UI Improvement </label
+                            ><br /><input
+                            name="labels"
+                            class="form-check-input"
+                            type="checkbox"
+                            value="Documentation"
+                            id="documentation"
+                            />
+                            <label class="form-check-label" for="documentation">
+                            Documentation </label
+                            ><br /><input
+                            name="labels"
+                            class="form-check-input"
+                            type="checkbox"
+                            value="Enhancement"
+                            id="enhancement"
+                            />
+                            <label class="form-check-label" for="enhancement">
+                            Enhancement </label
+                            ><br /><input
+                            name="labels"
+                            class="form-check-input"
+                            type="checkbox"
+                            value="Duplicate"
+                            id="duplicate"
+                            />
+                            <label class="form-check-label" for="duplicate"> Duplicate </label>
+                        </div>
+                        </div>
+                        <div class="row mb-3 m-auto">
+                        <label for="authorlabel" class="col-sm-4 col-form-label"
+                            >Author</label
+                        >
+                        <div class="col-sm-8">
+                            <input
+                            type="text"
+                            name="author"
+                            placeholder="Author"
+                            required
+                            class="form-control"
+                            id="authorlabel"
+                            />
+                        </div>
+                        </div>
+
+                        <div class="modal-footer mt-3">
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h3 class="mt-3 ">Issue List</h3>            
+            <!-- <% if(project.issues) { %> -->
+                <div class="modal-body">
+                    <% for(let issue of project.issues){ %>
+                    <div id="all-issues" class="card w-100 mb-3" style="width: 18rem">
+                      <div class="card-body">
+                        <h4 class="card-title">Title : <%= issue.title %></h4>
+                        <h5 class="card-title">Author : <%= issue.author %></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                          Description : <%= issue.description %>
+                        </h6>
+                        Labels : <%= issue.labels %>
+                      </div>
+                    </div>
+                    <% } %>
+                  </div>
+            <!-- <% } %> -->
+            </div>
+            
+        </div>
+        
+
+    </div>
+    
+    <div id="issue-data" data="<%=JSON.stringify(project.issues)%>"></div>
+    <script src="/js/filter.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

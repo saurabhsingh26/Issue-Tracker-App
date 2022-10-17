@@ -1,0 +1,16 @@
+{
+  "name": "issue-tracker-app",
+  "version": "1.0.0",
+  "description": "Issue Tracker App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Saurabh Singh",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongoose": "^6.6.5"
+  }
+}
